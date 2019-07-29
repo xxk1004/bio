@@ -16,9 +16,15 @@ def fetch_item_page(url):
     # print(rprt_div_tag)
     title = rprt_div_tag.find(name='h1').get_text()
     print(title)
-    abstract = rprt_div_tag.find(name='div', attrs={"class": "abstr"}).find(name='p').get_text()
+    try:
+        abstract = rprt_div_tag.find(name='div', attrs={"class": "abstr"}).find(name='p').get_text()
+    except:
+        abstract = ''
     # print(abstract)
-    doi = rprt_div_tag.find(name='dl', attrs={"class": "rprtid"}).find_all(name='dd')[1].get_text()
+    try:
+        doi = rprt_div_tag.find(name='dl', attrs={"class": "rprtid"}).find_all(name='dd')[1].get_text()
+    except:
+        doi = ''
     # print(doi)
     time.sleep(1)
     return title, abstract, doi
