@@ -1,5 +1,7 @@
 import time
 import xlwt
+import xlrd
+from xlutils.copy import copy
 import requests
 from bs4 import BeautifulSoup
 import parameters
@@ -8,6 +10,7 @@ keyword = "MDM2 breast cancer"
 url = "https://www.ncbi.nlm.nih.gov/pubmed/?term="
 url = url + keyword
 total_pages = 31
+excel_file_name = 'MDM2_breast_cancer.xls'
 
 
 def fetch_item_page(url):
@@ -78,7 +81,7 @@ soup = BeautifulSoup(content)
 div_list = soup.find_all(name='div', attrs={"class": "rprt"})
 
 
-'''wbk = xlwt.Workbook()
+wbk = xlwt.Workbook()
 sheet = wbk.add_sheet('page 1', cell_overwrite_ok=True)
 row_num = 0
 for div_tag in div_list:
@@ -93,11 +96,12 @@ for div_tag in div_list:
     # print(title)
     # break
     # print(item_url)
-wbk.save('MDM2_breast_cancer.xls')'''
+wbk.save(excel_file_name)
 
 
 for page_num in range(2, total_pages + 1):
-    wbk = xlwt.Workbook()
+    old_excel = xlrd.open_workbook(excel_file_name, formatting_info=True)
+    wbk = copy(old_excel)
     sheet = wbk.add_sheet('page ' + str(page_num), cell_overwrite_ok=True)
     row_num = 0
     print("Current page: " + str(page_num))
@@ -114,7 +118,7 @@ for page_num in range(2, total_pages + 1):
         sheet.write(row_num, 1, row['abstract'])
         sheet.write(row_num, 2, row['doi'])
         row_num = row_num + 1
-    wbk.save('MDM2_breast_cancer.xls')
+    wbk.save(excel_file_name)
     time.sleep(2)
 
 
