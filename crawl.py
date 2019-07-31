@@ -81,7 +81,7 @@ soup = BeautifulSoup(content)
 div_list = soup.find_all(name='div', attrs={"class": "rprt"})
 
 
-wbk = xlwt.Workbook()
+'''wbk = xlwt.Workbook()
 sheet = wbk.add_sheet('page 1', cell_overwrite_ok=True)
 row_num = 0
 for div_tag in div_list:
@@ -96,10 +96,10 @@ for div_tag in div_list:
     # print(title)
     # break
     # print(item_url)
-wbk.save(excel_file_name)
+wbk.save(excel_file_name)'''
 
 
-for page_num in range(2, total_pages + 1):
+for page_num in range(16, total_pages + 1):
     old_excel = xlrd.open_workbook(excel_file_name, formatting_info=True)
     wbk = copy(old_excel)
     sheet = wbk.add_sheet('page ' + str(page_num), cell_overwrite_ok=True)
